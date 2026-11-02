@@ -34,7 +34,7 @@ if [ $user_id -ne 0 ]; then
 fi
 }
 
-time_taken() {
+total_time_taken() {
     echo "$(timestamp)[INFO] ==== Script compelted in $SECONDS seconds ====" | tee -a $logs_file
     echo "$(timestamp)[INFO] ==== script completed execution ====" | tee -a $logs_file
 }

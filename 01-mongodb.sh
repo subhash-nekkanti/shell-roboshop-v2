@@ -1,7 +1,8 @@
 #!/bin/bash
 
 source ./common.sh
-check_root
+
+root_check
 
 cp mongo.repo /etc/yum.repos.d/mongo.repo
 validation $? "adding mongo repo"
@@ -19,5 +20,5 @@ validation $? "updating remote configuation"     #127.0.0.1 to 0.0.0.0 in /etc/m
 systemctl restart mongod  #restarting mongoDB
 validation $? "Restarting mongoDB"
 
-total_time
+total_time_taken
 
