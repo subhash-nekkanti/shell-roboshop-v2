@@ -11,8 +11,8 @@ validation $? "Enable MySQLl 8.4 and install MySQL server "
 mysql_secure_installation --set-root-pass RoboShop@1 &>>$logs_file
 validation $? "Setup Root-Pass"
 
-systemctl enable mysqld
-systemctl start mysqld
+systemctl enable mysqld &>>$logs_file
+systemctl start mysqld &>>$logs_file
 validation $? "ENABLE and START MYSQL"
 
 
