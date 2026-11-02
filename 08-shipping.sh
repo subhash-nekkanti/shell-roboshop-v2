@@ -1,4 +1,5 @@
 #!/bin/bash
+app_name="shipping"
 
 source ./common.sh
 root_check
