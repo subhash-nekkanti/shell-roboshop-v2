@@ -17,8 +17,8 @@ sed -i -e 's/^bind 127.0.0.1/bind 0.0.0.0/' -e 's/^protected-mode yes/protected-
 validation $? "configuration"  # 1. strating with bind chnage 127.0.0.1 to 0.0.0.0 and also
                                #2. substitute protected-mode yes to protected-mode no (peermanantly -i)
 
-systemctl enable redis
-systemctl start redis
+systemctl enable redis &>>$logs_file
+systemctl start redis &>>$logs_file
 validation $? "Enable and start redis"
 
 
