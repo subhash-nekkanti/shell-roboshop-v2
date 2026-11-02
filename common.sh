@@ -77,10 +77,10 @@ python_setup(){
     validation $? "installing python 3.14"
 
     python3.14 -m venv /app/.venv &>> $logs_file
-    validate $? "Creating virtual environment"
+    validation $? "Creating virtual environment"
     
     /app/.venv/bin/pip install -r requirements.txt &>> $logs_file
-    validate $? "Installing dependencies"
+    validation $? "Installing dependencies"
 }
 
 app_setup(){
