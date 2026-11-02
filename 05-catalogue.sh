@@ -3,7 +3,7 @@ source ./common.sh
 
 root_check
 
-app_name=catalogue
+app_name="catalogue"
 
 app_setup
 nodejs_setup
