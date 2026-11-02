@@ -61,10 +61,13 @@ app_setup(){
         echo -e "$(timestamp) [INFO] System user already exist ${Y}SKIPPING...${N}"
     fi
 
+    rm -rf /app
+    validate $? "Removing old code"
+
     mkdir -p /app &>>$logs_file #creating app directory -p tells if /app is already existing leave if not thrn create /app directory
     validation $? "Creating Appp directory"
 
-    curl -L -o /tmp/$app_name.zip https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/$app_name-v4.zip &>>$logs_file
+    curl -L -o "/tmp/$app_name.zip" https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/$app_name-v4.zip &>>$logs_file
     validation $? "downloading the application"
 
     cd /app
