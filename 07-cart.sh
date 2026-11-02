@@ -1,5 +1,5 @@
 #!/bin/bash
-
+app_name="cart"
 source ./common.sh
 
 root_check
