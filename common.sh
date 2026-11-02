@@ -56,14 +56,13 @@ java_setup(){
     dnf install maven java-25-openjdk-devel -y &>> $logs_file
     validation $? "Installing Java and Maven"
 
-    alternatives --set java "/usr/lib/jvm/java-25-openjdk/bin/java" &>> $logs_file
+    alternatives --set java "/usr/lib/jvm/java-25-openjdk/bin/java"
     validation $? "Setting Java 25 as default Java version"
 
-    echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f /usr/bin/java)))" > /etc/profile.d/java.sh &>> $logs_file
-    source /etc/profile.d/java.sh &>> $logs_file
-    echo $JAVA_HOME &>> $logs_file
+    echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f /usr/bin/java)))" > /etc/profile.d/java.sh
+    source /etc/profile.d/java.sh
+    echo $JAVA_HOME
     validation $? "Setting JAVA_HOME for maven"
-
 
     mvn clean package &>> $logs_file
     validation $? "Installing dependencies"
