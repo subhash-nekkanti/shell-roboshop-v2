@@ -18,7 +18,6 @@ N="\e[0m"
 timestamp(){          #timstamp function insted date "+%f %T" command everywhere just call the function when needed
     date "+%F %T"
 }
-
 echo "$(timestamp) [INFO] ==== script started execution ====" | tee -a $logs_file
 
 validation(){
@@ -55,22 +54,22 @@ nodejs_setup(){
 java_setup(){
     dnf module enable maven:3.9 -y &>> $logs_file
     dnf install maven java-25-openjdk-devel -y &>> $logs_file
-    validate $? "Installing Java and Maven"
+    validation $? "Installing Java and Maven"
 
     alternatives --set java "/usr/lib/jvm/java-25-openjdk/bin/java" &>> $logs_file
-    validate $? "Setting Java 25 as default Java version"
+    validation $? "Setting Java 25 as default Java version"
 
     echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f /usr/bin/java)))" > /etc/profile.d/java.sh &>> $logs_file
     source /etc/profile.d/java.sh &>> $logs_file
     echo $JAVA_HOME &>> $logs_file
-    validate $? "Setting JAVA_HOME for maven"
+    validation $? "Setting JAVA_HOME for maven"
 
 
     mvn clean package &>> $logs_file
-    validate $? "Installing dependencies"
+    validation $? "Installing dependencies"
 
     mv target/shipping.jar shipping.jar
-    validate $? "Moving shipping.jar file"
+    validation $? "Moving shipping.jar file"
 }
 
 app_setup(){
@@ -82,9 +81,7 @@ app_setup(){
         echo -e "$(timestamp) [INFO] System user already exist ${Y}SKIPPING...${N}"
     fi
 
-    rm -rf /app
-    validate $? "Removing old code"
-
+    
     mkdir -p /app &>>$logs_file
     validation $? "Creating Appp directory"
 
