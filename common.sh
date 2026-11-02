@@ -52,6 +52,27 @@ nodejs_setup(){
     validation $? "Installing Dependencies"
 }
 
+java_setup(){
+    dnf module enable maven:3.9 -y &>> $logs_file
+    dnf install maven java-25-openjdk-devel -y &>> $logs_file
+    validate $? "Installing Java and Maven"
+
+    alternatives --set java "/usr/lib/jvm/java-25-openjdk/bin/java" &>> $logs_file
+    validate $? "Setting Java 25 as default Java version"
+
+    echo "export JAVA_HOME=$(dirname $(dirname $(readlink -f /usr/bin/java)))" > /etc/profile.d/java.sh &>> $logs_file
+    source /etc/profile.d/java.sh &>> $logs_file
+    echo $JAVA_HOME &>> $logs_file
+    validate $? "Setting JAVA_HOME for maven"
+
+
+    mvn clean package &>> $logs_file
+    validate $? "Installing dependencies"
+
+    mv target/shipping.jar shipping.jar
+    validate $? "Moving shipping.jar file"
+}
+
 app_setup(){
     id roboshop &>>$logs_file
     if [ $? -ne 0 ]; then
@@ -64,14 +85,14 @@ app_setup(){
     rm -rf /app
     validate $? "Removing old code"
 
-    mkdir -p /app &>>$logs_file #creating app directory -p tells if /app is already existing leave if not thrn create /app directory
+    mkdir -p /app &>>$logs_file
     validation $? "Creating Appp directory"
 
     curl -L -o "/tmp/$app_name.zip" https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/$app_name-v4.zip &>>$logs_file
     validation $? "downloading the application"
 
     cd /app
-    unzip -o /tmp/$app_name.zip &>>$logs_file   #-o overwrites everytime when we execute if we do not mention -o then it throws error. Its always better to either removing entire directory or overwriting everytime we run a script 
+    unzip -o /tmp/$app_name.zip &>>$logs_file  
     validation $? "Unzipping application"
 }
 
