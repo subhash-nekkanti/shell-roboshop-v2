@@ -1,0 +1,29 @@
+#!/bin/bash
+
+source ./common.sh
+
+root_check
+
+dnf module disable redis -y &>>$logs_file
+validation $? "Disabling old Redis version"
+
+dnf module enable redis:7 -y &>>$logs_file
+validation $? "Enable redis  V7"
+
+dnf install redis -y &>>$logs_file
+validation $? "Redis Installation"
+
+sed -i -e 's/^bind 127.0.0.1/bind 0.0.0.0/' -e 's/^protected-mode yes/protected-mode no/' /etc/redis/redis.conf &>>$logs_file
+validation $? "configuration"  # 1. strating with bind chnage 127.0.0.1 to 0.0.0.0 and also
+                               #2. substitute protected-mode yes to protected-mode no (peermanantly -i)
+
+systemctl enable redis
+systemctl start redis
+validation $? "Enable and start redis"
+
+
+total_time_taken
+
+
+
+
