@@ -68,7 +68,7 @@ app_setup(){
     validation $? "downloading the application"
 
     cd /app
-    unzip -o "/tmp/$app_name.zip" &>>$logs_file   #-o overwrites everytime when we execute if we do not mention -o then it throws error. Its always better to either removing entire directory or overwriting everytime we run a script 
+    unzip -o /tmp/$app_name.zip &>>$logs_file   #-o overwrites everytime when we execute if we do not mention -o then it throws error. Its always better to either removing entire directory or overwriting everytime we run a script 
     validation $? "Unzipping application"
 }
 
@@ -84,6 +84,7 @@ systemd_setup(){
 
     systemctl start $app_name &>>$logs_file
     validation $? "Starting application ($app_name)"
+
 }
 
 restart(){
