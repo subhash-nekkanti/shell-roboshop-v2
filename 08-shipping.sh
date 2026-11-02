@@ -5,6 +5,7 @@ source ./common.sh
 root_check
 app_setup
 java_setup
+systemd_setup
 
 
 dnf install mysql -y &>> $logs_file
@@ -22,7 +23,7 @@ mysql -h "mysql.$domain_name" -uroot -pRoboShop@1 < /app/db/app-user.sql &>> $lo
 validation $? "Creating APP user"
 
 
-systemd_setup
+
 
 restart
 total_time_taken
